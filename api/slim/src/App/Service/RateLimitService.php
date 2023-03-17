@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use App\Queue\CreateResourceJob;
-use App\Queue\MessageQueue;
 use Predis\Client;
 
 class RateLimitService

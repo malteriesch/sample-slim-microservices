@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-use DI\Container;
 use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 

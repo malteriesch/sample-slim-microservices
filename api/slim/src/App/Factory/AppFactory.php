@@ -2,13 +2,8 @@
 
 namespace App\Factory;
 
-use App\Environments;
-use App\Middleware\RateLimiter;
-use App\Middleware\StartSession;
-use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\App;
-use Slim\Csrf\Guard;
 
 final class AppFactory
 {

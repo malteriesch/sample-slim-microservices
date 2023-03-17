@@ -4,7 +4,6 @@ namespace AppTests\Unit\Service;
 
 use App\Queue\CreateResourceJob;
 use App\Queue\MessageQueue;
-use App\Service\ResourceService;
 use AppTests\BaseTestCase;
 use Predis\Client;
 

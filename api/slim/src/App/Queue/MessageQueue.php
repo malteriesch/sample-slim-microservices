@@ -17,16 +17,16 @@ class MessageQueue
     function enqueue(string $jobClass, array $parameters = [])
     {
         $this->redis->sadd('queues', ['default']);
-        $this->redis->rpush('queue:default', json_encode(['class'=>$jobClass, 'parameters' => $parameters]));
+        $this->redis->rpush('queue:default', json_encode(['class' => $jobClass, 'parameters' => $parameters]));
     }
 
-    function dequeue() : ?array
+    function dequeue(): ?array
     {
         $config = $this->redis->lpop('queue:default');
 
-        if(null === $config){
+        if (null === $config) {
             return null;
         }
-       return json_decode($config, true);
+        return json_decode($config, true);
     }
 }
