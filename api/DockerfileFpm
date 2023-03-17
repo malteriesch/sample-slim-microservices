@@ -1,0 +1,24 @@
+FROM php:8.0-fpm
+
+RUN  pecl install redis \
+    && docker-php-ext-enable redis
+
+
+
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
+
+
+
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git
+
+
+COPY ./build/docker/fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./build/docker/fpm/php.ini /usr/local/etc/php/php.ini
+
+COPY ./slim/ /var/www/html/
+
+CMD ["php-fpm"]

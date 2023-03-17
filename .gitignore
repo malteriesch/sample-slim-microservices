@@ -1,0 +1,4 @@
+/api/slim/vendor/
+/api/slim/.phpunit.result.cache
+.idea/
+/test.http

@@ -1,0 +1,55 @@
+version: '3.4'
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: bibbit_nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/templates:/etc/nginx/templates/
+      - ./nginx/compression.conf:/etc/nginx/compression.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - NGINX_FPM_HOST=bibbit_fpm
+    depends_on:
+      - fpm
+    links:
+      - fpm
+
+  fpm:
+    build:
+      context: ./api/
+      dockerfile: DockerfileFpm
+    container_name: bibbit_fpm
+    ports:
+      - 9000:9000
+    volumes:
+      - ./api/slim/:/var/www/html
+    environment:
+      - REDIS_BACKEND=bibbit_redis:6379
+
+  queue:
+
+    build:
+      context: ./api/
+      dockerfile: DockerfileQueue
+    container_name: bibbit_queue
+    volumes:
+      - ./api/slim/:/var/slim
+      - ./api/build/docker/queue/supervisord.conf:/etc/supervisor/supervisord.conf
+      - ./api/build/docker/queue/resqueue.conf:/etc/supervisor/conf.d/resqueue.conf
+    environment:
+      - REDIS_BACKEND=bibbit_redis:6379
+    command: ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+
+  redis:
+    build:
+      context: ./redis/
+      dockerfile: Dockerfile
+    container_name: bibbit_redis
+    ports:
+      - 6379:6379
+

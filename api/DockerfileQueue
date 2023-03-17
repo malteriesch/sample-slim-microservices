@@ -1,0 +1,37 @@
+FROM php:8.0-cli
+
+
+
+
+
+RUN  pecl install redis \
+    && docker-php-ext-enable redis
+
+
+
+RUN docker-php-ext-configure pcntl --enable-pcntl \
+  && docker-php-ext-install \
+    pcntl
+
+
+
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git
+
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update \
+    && apt-get install -y supervisor \
+    && rm -rf /var/lib/apt/lists/*
+
+
+COPY ./build/docker/fpm/php.ini /usr/local/etc/php/php.ini
+
+COPY ./slim/ /var/slim
+
+# Set USER
+RUN useradd -ms /bin/bash project
+USER project
+WORKDIR /var/slim
+

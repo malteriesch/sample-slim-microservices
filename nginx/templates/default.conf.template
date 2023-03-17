@@ -1,0 +1,11 @@
+server {
+    listen  80;
+
+    location / {
+        fastcgi_pass ${NGINX_FPM_HOST}:9000;
+
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME /var/www/html/public/index.php;
+    }
+}
