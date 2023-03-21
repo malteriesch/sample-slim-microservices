@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\EventDispatcher\Events\ResourceNotFoundEvent;
+use App\EventDispatcher\Traits\EventDispatched;
 use App\Queue\CreateResourceJob;
 use App\Queue\MessageQueue;
 use Predis\Client;
@@ -9,7 +11,9 @@ use Predis\Client;
 class ResourceService
 {
 
-    public function __construct(private Client $redisClient, private MessageQueue $messageQueue)
+    use EventDispatched;
+
+    public function __construct(private Client $redisClient)
     {
     }
 
@@ -20,8 +24,7 @@ class ResourceService
         if ($content) {
             return $content;
         }
-
-        $this->messageQueue->enqueue(CreateResourceJob::class, ['resourceId' => $resourceId]);
+        $this->eventDispatcher->dispatchEvent(new ResourceNotFoundEvent($resourceId));
         return null;
     }
 
