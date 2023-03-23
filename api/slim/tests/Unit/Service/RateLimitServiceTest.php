@@ -4,13 +4,14 @@ namespace AppTests\Unit\Service;
 
 use App\Service\RateLimitService;
 use AppTests\BaseTestCase;
+use Mockery\MockInterface;
 use Predis\Client;
 
 class RateLimitServiceTest extends BaseTestCase
 {
 
-    protected RateLimitService $rateLimitService;
-    protected Client           $redisClient;
+    protected RateLimitService     $rateLimitService;
+    protected MockInterface|Client $redisClient;
 
     protected function setUp(): void
     {

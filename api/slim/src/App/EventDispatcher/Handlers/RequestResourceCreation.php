@@ -14,6 +14,6 @@ class RequestResourceCreation
 
     function __invoke(ResourceNotFoundEvent $event)
     {
-        $this->messageQueue->enqueue(CreateResourceJob::class, ['resourceId' => $event->getRequestId()]);
+        $this->messageQueue->enqueue(CreateResourceJob::class, ['requestId' => $event->getRequestId()]);
     }
 }

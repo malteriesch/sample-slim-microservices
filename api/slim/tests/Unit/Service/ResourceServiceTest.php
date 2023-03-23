@@ -2,11 +2,8 @@
 
 namespace AppTests\Unit\Service;
 
-use App\EventDispatcher\AbstractEvent;
 use App\EventDispatcher\EventDispatcherInterface;
 use App\EventDispatcher\Events\ResourceNotFoundEvent;
-use App\Queue\CreateResourceJob;
-use App\Queue\MessageQueue;
 use App\Service\ResourceService;
 use AppTests\BaseTestCase;
 use Mockery\MockInterface;
@@ -16,8 +13,8 @@ class ResourceServiceTest extends BaseTestCase
 {
 
     protected ResourceService                        $resourceService;
-    protected Client|MockInterface                   $redisClient;
-    protected EventDispatcherInterface|MockInterface $eventDispatcher;
+    protected MockInterface|Client                   $redisClient;
+    protected MockInterface|EventDispatcherInterface $eventDispatcher;
 
     protected function setUp(): void
     {
@@ -37,7 +34,7 @@ class ResourceServiceTest extends BaseTestCase
     function test_getResource_doesNotExist()
     {
         $this->redisClient->shouldReceive('get')->with("resources:abc")->once()->andReturns(null);
-        $this->eventDispatcher->shouldReceive('dispatchEvent')->withArgs(function(ResourceNotFoundEvent $event){
+        $this->eventDispatcher->shouldReceive('dispatchEvent')->withArgs(function (ResourceNotFoundEvent $event) {
             $this->assertEquals('abc', $event->getRequestId());
             return true;
         });

@@ -37,7 +37,7 @@ class EventsTest extends BaseTestCase
     {
         $event = new ResourceNotFoundEvent('abcdefgh');
 
-        $this->messageQueue->shouldReceive('enqueue')->with(CreateResourceJob::class, ['resourceId' => $event->getRequestId()]);
+        $this->messageQueue->shouldReceive('enqueue')->with(CreateResourceJob::class, ['requestId' => $event->getRequestId()]);
 
         $this->assertNull($this->container->get(EventDispatcher::class)->dispatchEvent($event));
     }
