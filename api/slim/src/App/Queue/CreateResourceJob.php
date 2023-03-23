@@ -13,6 +13,6 @@ class CreateResourceJob extends AbstractJob
 
     public function execute()
     {
-        $this->resourceService->create($this->arguments['resourceId']);
+        $this->resourceService->create($this->arguments['requestId']);
     }
 }

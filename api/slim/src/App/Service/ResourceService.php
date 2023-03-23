@@ -13,24 +13,24 @@ class ResourceService
     {
     }
 
-    public function getResource(string $resourceId): ?string
+    public function getResource(string $requestId): ?string
     {
-        $content = $this->redisClient->get("resources:$resourceId");
+        $content = $this->redisClient->get("resources:$requestId");
 
         if ($content) {
             return $content;
         }
 
-        $this->messageQueue->enqueue(CreateResourceJob::class, ['resourceId' => $resourceId]);
+        $this->messageQueue->enqueue(CreateResourceJob::class, ['requestId' => $requestId]);
         return null;
     }
 
-    public function create($resourceId): void
+    public function create($requestId): void
     {
         //quick way of creating an arbitrary delay to simulate expensive operation
-        $numberOfSeconds = ((crc32($resourceId) % 5) * 5) + 1;
+        $numberOfSeconds = ((crc32($requestId) % 6)) + 5; // between 5 and 10 inclusive
         sleep($numberOfSeconds);
-        $this->redisClient->set("resources:$resourceId", md5($resourceId));
+        $this->redisClient->set("resources:$requestId", md5($requestId));
     }
 
 }

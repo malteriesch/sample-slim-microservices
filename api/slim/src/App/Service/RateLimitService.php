@@ -11,11 +11,11 @@ class RateLimitService
     {
     }
 
-    public function tooManyRequests(string $resourceId): bool
+    public function tooManyRequests(string $requestId): bool
     {
-        if (null == $this->redisClient->get("rate-limit:$resourceId")) {
-            $this->redisClient->set("rate-limit:$resourceId", 'set');
-            $this->redisClient->pexpire("rate-limit:$resourceId", $this->blockTimeInMilliseconds);
+        if (null == $this->redisClient->get("rate-limit:$requestId")) {
+            $this->redisClient->set("rate-limit:$requestId", 'set');
+            $this->redisClient->pexpire("rate-limit:$requestId", $this->blockTimeInMilliseconds);
             return false;
         }
         return true;

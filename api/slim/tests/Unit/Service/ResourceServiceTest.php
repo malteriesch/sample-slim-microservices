@@ -33,7 +33,7 @@ class ResourceServiceTest extends BaseTestCase
     function test_getResource_doesNotExist()
     {
         $this->redisClient->expects()->get("resources:abc")->once()->andReturns(null);
-        $this->messageQueue->expects()->enqueue(CreateResourceJob::class, ['resourceId' => 'abc'])->once();
+        $this->messageQueue->expects()->enqueue(CreateResourceJob::class, ['requestId' => 'abc'])->once();
         $this->assertEquals(null, $this->resourceService->getResource('abc'));
     }
 }

@@ -20,7 +20,7 @@ class MessageQueueTest extends BaseTestCase
 
     public function createExampleJob(): array
     {
-        return ['class' => CreateResourceJob::class, 'parameters' => ['resourceId' => 123]];
+        return ['class' => CreateResourceJob::class, 'parameters' => ['requestId' => 123]];
     }
 
     protected function setUp(): void
@@ -36,7 +36,7 @@ class MessageQueueTest extends BaseTestCase
         $this->redisClient->shouldReceive('sadd')->with('queues', ['default'])->once();
         $this->redisClient->shouldReceive('rpush')->with('queue:default', $this->createExampleJson())->once();
 
-        $this->assertNull($this->messageQueue->enqueue(CreateResourceJob::class, ['resourceId' => 123]));
+        $this->assertNull($this->messageQueue->enqueue(CreateResourceJob::class, ['requestId' => 123]));
     }
 
     function test_dequeue()
