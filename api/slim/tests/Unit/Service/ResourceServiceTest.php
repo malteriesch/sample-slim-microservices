@@ -6,14 +6,15 @@ use App\Queue\CreateResourceJob;
 use App\Queue\MessageQueue;
 use App\Service\ResourceService;
 use AppTests\BaseTestCase;
+use Mockery\MockInterface;
 use Predis\Client;
 
 class ResourceServiceTest extends BaseTestCase
 {
 
-    protected ResourceService $resourceService;
-    protected Client          $redisClient;
-    protected MessageQueue    $messageQueue;
+    protected ResourceService            $resourceService;
+    protected MockInterface|Client       $redisClient;
+    protected MockInterface|MessageQueue $messageQueue;
 
     protected function setUp(): void
     {

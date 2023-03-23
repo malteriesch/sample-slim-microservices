@@ -7,13 +7,14 @@ use App\Queue\MessageQueue;
 use App\Queue\QueueHandler;
 use AppTests\BaseTestCase;
 use DI\Container;
+use Mockery\MockInterface;
 
 class QueueHandlerTest extends BaseTestCase
 {
 
-    protected MessageQueue $messageQueue;
-    protected QueueHandler $queueHandler;
-    protected Container    $container;
+    protected MockInterface|MessageQueue $messageQueue;
+    protected MockInterface|Container    $container;
+    protected QueueHandler               $queueHandler;
 
     protected function setUp(): void
     {
